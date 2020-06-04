@@ -20,7 +20,7 @@ function generateRandomInteger(min, max, amount) {
 	return digits
 }
 
-function checkSecond() {
+function keySegment() {
 	let correctKey = false
 	while (!correctKey) {
 		let secondDigits = generateRandomInteger(0, 9, 7);
@@ -30,7 +30,6 @@ function checkSecond() {
 			return secondDigits.join('');
 		} else {
 			secondDigits.length = 0
-			i = secondDigits.reduce((a, b) => a + b, 0)
 			generateRandomInteger(0, 9, 7);
 		}
 	}
@@ -38,10 +37,8 @@ function checkSecond() {
 
 function getAll() {
 	let all = [];
-	checkSecond()
 	while (all.length < 8) {
-		generateRandomInteger(0, 9, 7);
-		all.push(`${siteSegment()}-${checkSecond()}`);
+		all.push(`${siteSegment()}-${keySegment()}`);
 	}
 	return all
 }
