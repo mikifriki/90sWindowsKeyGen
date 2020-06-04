@@ -1,61 +1,57 @@
-let excludedSite = [333, 444, 555, 666, 777, 888, 999];
-let siteValues = 0;
-let fullNumber = 0;
-let digits = [];
-let all = [];
-
-function siteSegment(min, max) {
+function siteNumber(min, max) {
 	min = Math.ceil(min)
 	max = Math.floor(max)
 	return Math.floor(Math.random() * (max - min)) + min
 }
 
-function checkValidation() {
+function siteSegment(siteValues) {
+	const excludedSite = [333, 444, 555, 666, 777, 888, 999];
 	do {
-		siteValues = siteSegment(100, 999)
+		siteValues = siteNumber(100, 999)
 	} while (excludedSite.includes(siteValues))
 	return siteValues
 }
 
 function generateRandomInteger(min, max, amount) {
+	let digits = [];
 	for (let i = 0; amount > i; i++) {
 		digits.push(Math.floor(Math.random() * (max - min + 1)) + min)
 	}
+	return digits
 }
 
 function checkSecond() {
 	let correctKey = false
 	while (!correctKey) {
-		let i = digits.reduce((a, b) => a + b, 0)
-		if (i % 7 === 0 && digits[digits.length - 1] <= 7) {
+		let secondDigits = generateRandomInteger(0, 9, 7);
+		let i = secondDigits.reduce((a, b) => a + b, 0)
+		if (i % 7 === 0 && secondDigits[secondDigits.length - 1] <= 7) {
 			correctKey = true
+			return secondDigits.join('');
 		} else {
-			digits.length = 0
-			i = digits.reduce((a, b) => a + b, 0)
+			secondDigits.length = 0
+			i = secondDigits.reduce((a, b) => a + b, 0)
 			generateRandomInteger(0, 9, 7);
-			fullNumber = digits.join('');
 		}
 	}
 }
 
 function getAll() {
+	let all = [];
 	checkSecond()
 	while (all.length < 8) {
 		generateRandomInteger(0, 9, 7);
-		checkValidation()
-		checkSecond()
-		all.push(`${siteValues}-${fullNumber}`);
+		all.push(`${siteSegment()}-${checkSecond()}`);
 	}
+	return all
 }
 
-function fullArrayCheck() {
-
+function fullArrayCheck(inputArray) {
 	let testArray = []
-	for (let j = 0; all.length > j; j++) {
-		let testItem  = Array.from(all[j].substring(4))
-		testArray.push(testItem.map((item) =>parseInt(item)).reduce((a, b) => a + b, 0))
+	for (let j = 0; inputArray.length > j; j++) {
+		let testItem  = Array.from(inputArray[j].substring(4))
+		testArray.push(testItem.map((item) => parseInt(item)).reduce((a, b) => a + b, 0))
 	}
-
 	for (let i = 0; testArray.length > i; i++) {
 		if (testArray[i] % 7 === 0) {
 			return console.log("All were divisible by 7")
@@ -64,6 +60,5 @@ function fullArrayCheck() {
 		}
 	}
 }
-getAll()
-fullArrayCheck()
-console.log(all)
+console.log(getAll())
+fullArrayCheck(getAll())
