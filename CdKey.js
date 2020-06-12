@@ -4,10 +4,10 @@ function siteNumber(min, max) {
 	return Math.floor(Math.random() * (max - min)) + min
 }
 
-function siteSegment(siteValues) {
+function siteSegment() {
 	const excludedSite = [333, 444, 555, 666, 777, 888, 999];
 	do {
-		siteValues = siteNumber(100, 999)
+		var siteValues = siteNumber(100, 999)
 	} while (excludedSite.includes(siteValues))
 	return siteValues
 }
@@ -35,7 +35,7 @@ function keySegment() {
 	}
 }
 
-function getAll() {
+function generateKeys() {
 	let all = [];
 	while (all.length < 8) {
 		all.push(`${siteSegment()}-${keySegment()}`);
@@ -51,11 +51,11 @@ function fullArrayCheck(inputArray) {
 	}
 	for (let i = 0; testArray.length > i; i++) {
 		if (testArray[i] % 7 === 0) {
-			return console.log("All were divisible by 7")
+			return console.log("All were divisible by 7", inputArray)
 		} else if (testArray[i] % 7 !== 0) {
 			return console.log("One of the keys is invalid")
 		}
 	}
 }
-console.log(getAll())
-fullArrayCheck(getAll())
+
+fullArrayCheck(generateKeys())
